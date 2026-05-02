@@ -1,0 +1,12 @@
+# Compiled object files
+*.o
+
+# Shared objects/libraries
+*.so
+
+# Static libraries
+*.a
+
+# Common default output names
+a.out 
+pomo
