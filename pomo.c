@@ -17,12 +17,12 @@ void toggle_state(State *state)
   if(state->is_study)
   {
     state->cycles-=1;
-    state->total_time = 45*60; //user defined
+    state->total_time = 60/2; //user defined
     strcpy(state->header, "study :<");
   }
   else
   {
-    state->total_time = 15*60; //user defined
+    state->total_time = 60/4; //user defined
     if(state->cycles==1){
       state->total_time *= 3; //4 can be user defined
     }
@@ -32,7 +32,7 @@ void toggle_state(State *state)
 
 int main(void)
 {
-    State state = {1.0*60, "study :<", true, 3}; //first and last values should be user defined, 3 is number of cycles
+    State state = {60/2.0, "study :<", true, 3}; //first and last values should be user defined, 3 is number of cycles
     InitWindow(240, 240, "raylib example - basic window");
     InitAudioDevice();   
     if(IsAudioDeviceReady())
@@ -57,6 +57,10 @@ int main(void)
         BeginDrawing();
             ClearBackground(RAYWHITE);
             //DrawGrid(10, 12.0f);
+              for(int i=0; i<240; i+=30)
+                DrawLine(i,0,i,240, LIGHTGRAY);
+              for(int i=0; i<240; i+=30)
+                DrawLine(0,i,240,i, LIGHTGRAY);
         // if user presses t, timer runnings, if user presses y, timer pauses
         if (IsKeyPressed(KEY_T)) {
             if(laps == 0)
@@ -80,10 +84,10 @@ int main(void)
         
         if (running && is_paused==false) {
           laps=GetTime()-start_time;
-          printf("laps: %d \n", laps);
-          //printf("Remaining time = %d\n",45*60 - laps);
-          printf("cycle number: %d \n", state.cycles);
-          printf("pause time: %0.0f \n", pause_time);
+          DrawText("Press y to stop !", 40, 160, 20, MAROON);
+        }
+        else {
+        DrawText("Press t to start !", 40, 160, 20, MAROON);
         }
 
         mins = (int)(state.total_time - laps)/60;
@@ -96,9 +100,9 @@ int main(void)
           pause_time = 0;
         }
         if(mins<=0 && secs<=0)
-        DrawText(TextFormat("%s\n00:00\n",state.header), 80, 80, 30 , MAROON);        
+        DrawText(TextFormat("%s\n00:00\n",state.header), 80, 60, 30 , MAROON);        
         else
-        DrawText(TextFormat("%s\n%d:%d\n",state.header,mins,secs), 80, 80, 30 , MAROON);   
+        DrawText(TextFormat("%s\n%d:%d\n",state.header,mins,secs), 80, 60, 30 , MAROON);   
         EndDrawing();
     }
     CloseAudioDevice();
