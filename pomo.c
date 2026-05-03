@@ -29,7 +29,7 @@ void toggle_state(State *state)
     strcpy(state->header, "brek >:3");
   }
 }
-
+// testing to see if path replacement worke
 int main(void)
 {
     State state = {45.0*60, "study :<", true, 3}; //first and last values should be user defined, 3 is number of cycles
@@ -42,7 +42,7 @@ int main(void)
     SetTargetFPS(60); 
     SetWindowPosition(1659, 45);
 
-    Sound done = LoadSound("your_timer_sound_mp3_file_here");
+    Sound done = LoadSound("your_timer_sound_mp3_file_directory_here");
         
     int laps=0;
     int secs=0;
