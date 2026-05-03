@@ -17,12 +17,12 @@ void toggle_state(State *state)
   if(state->is_study)
   {
     state->cycles-=1;
-    state->total_time = 60/2; //user defined
+    state->total_time = 45*60; //user defined
     strcpy(state->header, "study :<");
   }
   else
   {
-    state->total_time = 60/4; //user defined
+    state->total_time = 15*60; //user defined
     if(state->cycles==1){
       state->total_time *= 3; //4 can be user defined
     }
@@ -32,7 +32,7 @@ void toggle_state(State *state)
 
 int main(void)
 {
-    State state = {60/2.0, "study :<", true, 3}; //first and last values should be user defined, 3 is number of cycles
+    State state = {45.0*60, "study :<", true, 3}; //first and last values should be user defined, 3 is number of cycles
     InitWindow(240, 240, "raylib example - basic window");
     InitAudioDevice();   
     if(IsAudioDeviceReady())
@@ -42,7 +42,7 @@ int main(void)
     SetTargetFPS(60); 
     SetWindowPosition(1659, 45);
 
-    Sound done = LoadSound("/home/shivaniv/Downloads/done.mp3");
+    Sound done = LoadSound("your_timer_sound_mp3_file_here");
         
     int laps=0;
     int secs=0;
