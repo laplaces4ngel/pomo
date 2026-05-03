@@ -84,10 +84,10 @@ int main(void)
         
         if (running && is_paused==false) {
           laps=GetTime()-start_time;
-          DrawText("Press y to stop !", 40, 160, 20, MAROON);
+          DrawText("Press y to stop !", 40, 130, 20, MAROON);
         }
         else {
-        DrawText("Press t to start !", 40, 160, 20, MAROON);
+        DrawText("Press t to start !", 40, 130, 20, MAROON);
         }
 
         mins = (int)(state.total_time - laps)/60;
