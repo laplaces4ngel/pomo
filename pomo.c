@@ -33,7 +33,7 @@ void toggle_state(State *state)
 int main(void)
 {
     State state = {45.0*60, "study :<", true, 3}; //first and last values should be user defined, 3 is number of cycles
-    InitWindow(240, 240, "raylib example - basic window");
+    InitWindow(240, 210, "raylib example - basic window");
     InitAudioDevice();   
     if(IsAudioDeviceReady())
       printf("yuh \n");
