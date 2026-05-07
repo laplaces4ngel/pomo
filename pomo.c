@@ -24,7 +24,7 @@ void toggle_state(State *state)
   {
     state->total_time = 15*60; //user defined
     if(state->cycles==1){
-      state->total_time *= 3; //4 can be user defined
+      state->total_time *= 4; //4 can be user defined
     }
     strcpy(state->header, "brek >:3");
   }
@@ -32,7 +32,7 @@ void toggle_state(State *state)
 // testing to see if path replacement worke
 int main(void)
 {
-    State state = {45.0*60, "study :<", true, 3}; //first and last values should be user defined, 3 is number of cycles
+    State state = {45*60, "study :<", true, 4}; //first and last values should be user defined, 3 is number of cycles
     InitWindow(240, 210, "raylib example - basic window");
     InitAudioDevice();   
     if(IsAudioDeviceReady())
@@ -100,9 +100,9 @@ int main(void)
           pause_time = 0;
         }
         if(mins<=0 && secs<=0)
-        DrawText(TextFormat("%s\n00:00\n",state.header), 80, 60, 30 , MAROON);        
+          DrawText(TextFormat("%s\n00:00\n",state.header), 80, 60, 30 , MAROON);        
         else
-        DrawText(TextFormat("%s\n%d:%d\n",state.header,mins,secs), 80, 60, 30 , MAROON);   
+          DrawText(TextFormat("%s\n%d:%d\n",state.header,mins,secs), 80, 60, 30 , MAROON);   
         EndDrawing();
     }
     CloseAudioDevice();
