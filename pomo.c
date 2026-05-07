@@ -76,10 +76,18 @@ int main(void)
         if (state.cycles==0){
             running = false;
         }
+        if(IsKeyPressed(KEY_S)){
+          running = false;
+          is_paused = true;
+          pause_time = GetTime();
+          toggle_state(&state);
+        }
         if (IsKeyPressed(KEY_Y)){
           running = false;
           is_paused = true;
           pause_time = GetTime();
+        if(IsKeyPressed(KEY_S))
+            toggle_state(&state);
         }
         
         if (running && is_paused==false) {
