@@ -11,6 +11,8 @@ typedef struct{
   int cycles;
 }State;
 
+int nc = 3;
+
 void toggle_state(State *state)
 {
   state->is_study = !state->is_study;
@@ -24,7 +26,7 @@ void toggle_state(State *state)
   {
     state->total_time = 15*60; //user defined
     if(state->cycles==1){
-      state->total_time *= 4; //4 can be user defined
+      state->total_time *= nc; //4 can be user defined
     }
     strcpy(state->header, "brek >:3");
   }
@@ -32,7 +34,7 @@ void toggle_state(State *state)
 // testing to see if path replacement worke
 int main(void)
 {
-    State state = {45*60, "study :<", true, 4}; //first and last values should be user defined, 3 is number of cycles
+    State state = {45*60, "study :<", true, nc}; //first and last values should be user defined, 3 is number of cycles
     InitWindow(240, 210, "raylib example - basic window");
     InitAudioDevice();   
     if(IsAudioDeviceReady())
@@ -43,11 +45,12 @@ int main(void)
     SetWindowPosition(1659, 45);
 
     Sound done = LoadSound("your_timer_sound_mp3_file_directory_here");
-        
+    
     int laps=0;
     int secs=0;
     bool running=false;
     bool is_paused=false;
+    bool is_switch=false;
     int mins=0;
     float start_time=0.0f;
     float pause_time=0.0f;
@@ -72,22 +75,25 @@ int main(void)
         }
           is_paused = false;
           running = true;
+          is_switch = false;
         } 
         if (state.cycles==0){
             running = false;
+            state.cycles = 3;
         }
         if(IsKeyPressed(KEY_S)){
           running = false;
           is_paused = true;
-          pause_time = GetTime();
           toggle_state(&state);
+          start_time = GetTime();
+          pause_time = GetTime();
+          is_switch=true;
         }
         if (IsKeyPressed(KEY_Y)){
           running = false;
           is_paused = true;
+          is_switch = false;
           pause_time = GetTime();
-        if(IsKeyPressed(KEY_S))
-            toggle_state(&state);
         }
         
         if (running && is_paused==false) {
@@ -108,8 +114,11 @@ int main(void)
           pause_time = 0;
         }
         if(mins<=0 && secs<=0)
-          DrawText(TextFormat("%s\n00:00\n",state.header), 80, 60, 30 , MAROON);        
+          DrawText(TextFormat("%s\n00:00\n",state.header), 80, 60, 30 , MAROON);       
         else
+          if(is_switch)
+          DrawText(TextFormat("%s\n%d:00\n",state.header,(int)state.total_time/60,secs), 80, 60, 30 , MAROON);   
+          else
           DrawText(TextFormat("%s\n%d:%d\n",state.header,mins,secs), 80, 60, 30 , MAROON);   
         EndDrawing();
     }
