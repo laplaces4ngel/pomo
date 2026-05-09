@@ -69,8 +69,10 @@ int main(void)
             if(laps == 0)
             start_time = GetTime();
         if(is_paused) {
-          pause_time = GetTime() - pause_time;
-          start_time+=pause_time;
+          //pause_time = GetTime() - pause_time;
+          if(is_switch)
+            pause_time = 0;
+          start_time+=GetTime() - pause_time;
           printf("%0.0f \n", pause_time);
         }
           is_paused = false;
