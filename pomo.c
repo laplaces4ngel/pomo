@@ -68,7 +68,7 @@ int main(void)
         if (IsKeyPressed(KEY_T)) {
             if(laps == 0)
             start_time = GetTime();
-        if(is_paused) {
+        if(is_paused && !is_switch) {
           pause_time = GetTime() - pause_time;
           start_time+=pause_time;
           printf("%0.0f \n", pause_time);
@@ -83,11 +83,12 @@ int main(void)
         }
         if(IsKeyPressed(KEY_S)){
           running = false;
-          is_paused = true;
+          is_paused = false;
           toggle_state(&state);
-          start_time = GetTime();
-          pause_time = GetTime();
+          start_time = 0;
+          pause_time = 0;
           is_switch=true;
+          laps = 0;
         }
         if (IsKeyPressed(KEY_Y)){
           running = false;
