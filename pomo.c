@@ -69,9 +69,9 @@ int main(void)
             if(laps == 0)
             start_time = GetTime();
         if(is_paused) {
-          //pause_time = GetTime() - pause_time;
           if(is_switch)
             pause_time = 0;
+          //pause_time = GetTime() - pause_time;
           start_time+=GetTime() - pause_time;
           printf("%0.0f \n", pause_time);
         }
@@ -90,6 +90,7 @@ int main(void)
           start_time = GetTime();
           pause_time = GetTime();
           is_switch=true;
+          laps = 0;
         }
         if (IsKeyPressed(KEY_Y)){
           running = false;
