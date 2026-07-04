@@ -5,36 +5,35 @@
 #include <math.h>
 // describes break or studying state
 typedef struct{
-  float total_time;
-  char header[30];
-  bool is_study;
-  int cycles;
+  float total_time; //total time of the timer (50 mins, 10 mins)
+  char header[30]; // display study or break
+  bool is_study; // checking if the current state is the study state
+  int cycles; // number of study-break cycles
 }State;
 
-int nc = 3;
-
+int nc = 3; //number of cycles
+// toggles states (study to break and vice versa)
 void toggle_state(State *state)
 {
   state->is_study = !state->is_study;
   if(state->is_study)
   {
     state->cycles-=1;
-    state->total_time = 45*60; //user defined
+    state->total_time = 50*60; //user defined
     strcpy(state->header, "study :<");
   }
   else
   {
-    state->total_time = 15*60; //user defined
+    state->total_time = 10*60; //user defined
     if(state->cycles==1){
-      state->total_time *= nc; //4 can be user defined
+      state->total_time *= (nc-1); //can be user defined
     }
     strcpy(state->header, "brek >:3");
   }
 }
-// testing to see if path replacement worke
 int main(void)
 {
-    State state = {45*60, "study :<", true, nc}; //first and last values should be user defined, 3 is number of cycles
+    State state = {50*60, "study :<", true, nc}; 
     InitWindow(240, 210, "raylib example - basic window");
     InitAudioDevice();   
     if(IsAudioDeviceReady())
@@ -59,7 +58,6 @@ int main(void)
     {
         BeginDrawing();
             ClearBackground(RAYWHITE);
-            //DrawGrid(10, 12.0f);
               for(int i=0; i<240; i+=30)
                 DrawLine(i,0,i,240, LIGHTGRAY);
               for(int i=0; i<240; i+=30)
@@ -79,7 +77,13 @@ int main(void)
         } 
         if (state.cycles==0){
             running = false;
-            state.cycles = 3;
+//          toggle_state(&state);
+            state.cycles = nc;
+            pause_time=0.0f;
+            start_time=0.0f;
+            is_paused = false;
+            is_switch = false;
+            laps=0;
         }
         if(IsKeyPressed(KEY_S)){
           running = false;
@@ -90,7 +94,7 @@ int main(void)
           is_switch=true;
           laps = 0;
         }
-        if (IsKeyPressed(KEY_Y)){
+        if (IsKeyPressed(KEY_Y) && running){
           running = false;
           is_paused = true;
           is_switch = false;
@@ -104,15 +108,24 @@ int main(void)
         else {
         DrawText("Press t to start !", 40, 130, 20, MAROON);
         }
-
+        //if(mins<=0 && secs<=0)
+          //DrawText(TextFormat("%s\n00:00\n",state.header), 80, 60, 30 , MAROON); 
         mins = (int)(state.total_time - laps)/60;
         secs = ((int)state.total_time - laps)%60;
 
-        if(round(state.total_time)==laps) {
+        if(round(state.total_time)<=laps) { //changed to <= from ==
           PlaySound(done);
           toggle_state(&state);
           start_time=GetTime();
           pause_time = 0;
+        } if (laps>=1){
+              //printf("laps: %d\n", laps);
+              //printf("mins: %d\n", mins);
+              //printf("secs: %d\n", secs);
+              //printf("pause_time: %.f\n", pause_time);
+              //printf("is_switch: %d\n", is_switch);
+              //printf("is_paused: %d\n", is_paused);
+              //printf("running: %d\n", running);
         }
         if(mins<=0 && secs<=0)
           DrawText(TextFormat("%s\n00:00\n",state.header), 80, 60, 30 , MAROON);       
@@ -121,8 +134,10 @@ int main(void)
           DrawText(TextFormat("%s\n%d:00\n",state.header,(int)state.total_time/60,secs), 80, 60, 30 , MAROON);   
           else
           DrawText(TextFormat("%s\n%d:%d\n",state.header,mins,secs), 80, 60, 30 , MAROON);   
-        EndDrawing();
+
+       EndDrawing();
     }
+    UnloadSound(done); // adding to prevent resource leak
     CloseAudioDevice();
     CloseWindow();
 
