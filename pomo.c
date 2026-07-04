@@ -43,7 +43,7 @@ int main(void)
     SetTargetFPS(60); 
     SetWindowPosition(1659, 45);
 
-    Sound done = LoadSound("your_timer_sound_mp3_file_directory_here");
+    Sound done = LoadSound("done.mp3");
     
     int laps=0;
     int secs=0;
