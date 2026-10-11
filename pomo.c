@@ -33,7 +33,8 @@ void toggle_state(State *state)
 }
 int main(void)
 {
-    State state = {50*60, "study :<", true, nc}; 
+    State state = {50*60, "study :<", true, nc};
+    //SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(240, 210, "raylib example - basic window");
     InitAudioDevice();   
     if(IsAudioDeviceReady())
@@ -41,7 +42,7 @@ int main(void)
     SetMasterVolume(.5);
     printf("get master volume: %.2f", GetMasterVolume());
     SetTargetFPS(60); 
-    SetWindowPosition(1659, 45);
+    SetWindowPosition(1627, 5);
 
     Sound done = LoadSound("done.mp3");
     
